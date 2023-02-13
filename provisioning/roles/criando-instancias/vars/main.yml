@@ -1,0 +1,9 @@
+---
+# vars file for criando-instancias
+instance_type: t2.medium
+sec_group_name: my-app
+image: ami-0dce57edaf582cf62
+keypair: key-sp
+region: sa-east-1
+count: 3
+profile: default

@@ -1,0 +1,31 @@
+- name: Copiando o arquivo de deployment da app v1
+  template:
+    src: app-v1.yml.j2
+    dest: /opt/my-app/app-v1.yml
+    owner: root
+    group: root
+    mode: 0644
+  register: copiando_deploy_app_v1
+
+- name: Copiando o arquivo de deployment da app v2
+  template:
+    src: app-v2.yml.j2
+    dest: /opt/my-app/app-v2.yml
+    owner: root
+    group: root
+    mode: 0644
+  register: copiando_deploy_app_v2
+
+- name: Deploy da My-App v2
+  shell: kubectl apply -f /opt/my-app/app-v2.yml
+  register: deploy_app_v2
+
+- name: Scale down da app-v1
+  shell: kubectl scale --replicas=1 deployment/my-app-v1
+
+- name: Dentro de 02 minutos a app-v1 sera removida. Pressione control+c para cancelar
+  pause:
+    minutes: 2
+
+- name: Removendo a app-v1
+  shell: kubectl delete deployment my-app-v1

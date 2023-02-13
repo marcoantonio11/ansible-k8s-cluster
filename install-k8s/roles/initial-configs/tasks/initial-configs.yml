@@ -1,0 +1,31 @@
+- name: Removendo containerd config.toml
+  file:
+    path: /etc/containerd/config.toml
+    state: absent
+  changed_when: True
+
+- name: Parando Containerd
+  service:
+    name: containerd
+    state: stopped
+
+- name: Parando Kubelet
+  service:
+    name: kubelet
+    state: stopped
+
+- name: Startando Containerd
+  service:
+    name: containerd
+    state: started
+
+- name: Startando Kubelet
+  service:
+    name: kubelet
+    state: started
+
+- name: Removendo configuracoes anteriores do cluster
+  file:
+    path: ~/.kube/config
+    state: absent
+  changed_when: True
